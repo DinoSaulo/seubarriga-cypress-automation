@@ -33,6 +33,10 @@ const locators = {
         CONTA: '[data-test=conta]',
         STATUS: '[data-test=status]',
         BTN_SALVAR: '.btn-primary',
+        BTN_CONTA_PENDENTE: "button[title='Conta Pendente']",
+        BTN_CONTA_PAGA: "button[title='Conta Paga']",
+        DATA_TRANSACAO: '[data-test=data-transacao]',
+        DATA_PAGAMENTO: '[data-test=data-pagamento]'
     },
     EXTRATO: {
         LINHAS: '.list-group > li',

@@ -19,3 +19,11 @@ Cypress.Commands.add('closeAllToasts', () => {
         }
     })
 })
+
+Cypress.Commands.add('fillTomorrowDateInInputDate', (input_locator) => {
+    let tomorrow = new Date(new Date())
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    tomorrow = tomorrow.toISOString().split('T')[0]
+
+    cy.get(input_locator).type(tomorrow)
+})

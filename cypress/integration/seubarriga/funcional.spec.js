@@ -68,20 +68,60 @@ describe('Should test at a funcional level', () => {
         })
     })
 
-    it('Should create a transaction', () => {
-        cy.get(loc.MENU.MOVIENTACAO).click()
+    describe('Transactions tests', () => {
+        it('Should create a transaction', () => {
+            cy.get(loc.MENU.MOVIENTACAO).click()
 
-        cy.get(loc.MOVIENTACAO.DESCRICAO).type('Desc')
-        cy.get(loc.MOVIENTACAO.VALOR).type('123')
-        cy.get(loc.MOVIENTACAO.INTERESSADO).type('Inter')
-        cy.get(loc.MOVIENTACAO.CONTA).select('Conta para movimentacoes')
-        cy.get(loc.MOVIENTACAO.STATUS).click()
-        cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
+            cy.get(loc.MOVIENTACAO.DESCRICAO).type('Desc')
+            cy.get(loc.MOVIENTACAO.VALOR).type('123')
+            cy.get(loc.MOVIENTACAO.INTERESSADO).type('Inter')
+            cy.get(loc.MOVIENTACAO.CONTA).select('Conta para movimentacoes')
+            cy.get(loc.MOVIENTACAO.STATUS).click()
+            cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
 
-        cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
-        cy.url().should('contain', '/extrato')
-        cy.get(loc.EXTRATO.LINHAS).should('have.length', 7)
-        cy.xpath(loc.EXTRATO.FN_XP_BUSCA_ELEMENTO('Desc', '123')).should('exist')
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
+            cy.url().should('contain', '/extrato')
+            cy.get(loc.EXTRATO.LINHAS).should('have.length', 7)
+            cy.xpath(loc.EXTRATO.FN_XP_BUSCA_ELEMENTO('Desc', '123')).should('exist')
+        })
+
+        it('Should change type of transaction button', () => {
+            cy.get(loc.MENU.MOVIENTACAO).click()
+
+            cy.get(loc.MOVIENTACAO.BTN_CONTA_PENDENTE).should('exist')
+            cy.get(loc.MOVIENTACAO.BTN_CONTA_PENDENTE).click()
+
+            cy.get(loc.MOVIENTACAO.BTN_CONTA_PAGA).should('exist')
+            cy.get(loc.MOVIENTACAO.BTN_CONTA_PAGA).click()
+
+            cy.get(loc.MOVIENTACAO.BTN_CONTA_PENDENTE).should('exist')
+        })
+
+        it('Should cannot make a transition tomorrow ', () => {
+            cy.get(loc.MENU.MOVIENTACAO).click()
+
+            cy.fillTomorrowDateInInputDate(loc.MOVIENTACAO.DATA_TRANSACAO)
+
+            cy.get(loc.MOVIENTACAO.DESCRICAO).type('Desc')
+            cy.get(loc.MOVIENTACAO.VALOR).type('123')
+            cy.get(loc.MOVIENTACAO.INTERESSADO).type('Inter')
+            cy.get(loc.MOVIENTACAO.STATUS).click()
+            cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
+
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'code 400')
+        })
+
+        it('Should add created acount in the acount input', () => {
+            const acount_name = 'Conta para aparecer no input'
+
+            cy.acessarMenuConta()
+            cy.closeAllToasts()
+            cy.inserirConta(acount_name)
+
+            cy.get(loc.MENU.MOVIENTACAO).click()
+
+            cy.get(loc.MOVIENTACAO.CONTA).should('contain', acount_name)
+        })
     })
 
     it('Should get ballance', () => {
