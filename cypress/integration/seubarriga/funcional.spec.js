@@ -1,28 +1,22 @@
 /// <reference types="cypress"/>
 
 import loc from '../../support/locators'
+import '../../support/commandsContas'
 
 describe('Should test at a funcional level', () => {
     before( () => {
         cy.visit('https://barrigareact.wcaquino.me/')
 
-        cy.get(loc.LOGIN.USER).type('a@a')
-        cy.get(loc.LOGIN.PASSWORD).type('a')
-        cy.get(loc.LOGIN.BTN_LOGIN).click()
-        cy.get(loc.TOAST).should('contain', 'Bem vindo')
-
-        cy.get(loc.MENU.SETTINGS).click()
-        cy.get(loc.MENU.RESET).click()
+        cy.login('a@a', 'a')
+        cy.resetApp()
 
     })
 
     it('Should create an acount', () => {
-        cy.get(loc.MENU.SETTINGS).click()
-        cy.get(loc.MENU.CONTAS).click()
-        cy.get(loc.CONTAS.NOME).type('Conta de teste')
-        cy.get(loc.CONTAS.BTN_SALVAR).click()
+        cy.acessarMenuConta()
+        cy.inserirConta('Conta de teste')
 
-        cy.get(loc.TOAST).should('contain', 'Conta inserida com sucesso!')
+        cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta inserida com sucesso!')
     })
 
     it('Should edit an acount', () => {
@@ -33,7 +27,34 @@ describe('Should test at a funcional level', () => {
             .clear()
             .type('Conta alterada')
         cy.get(loc.CONTAS.BTN_SALVAR).click()
-        cy.get(loc.TOAST).should('contain', 'Conta atualizada com sucesso!')
+        cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta atualizada com sucesso!')
 
+    })
+
+    it.only('Should not create an account with same name', () => {
+        cy.acessarMenuConta()
+        cy.inserirConta('Conta de teste 2')
+
+        cy.closeAllToasts()
+
+        cy.acessarMenuConta()
+        cy.inserirConta('Conta de teste 2')
+
+        cy.get(loc.TOAST.MESSAGE).should('contain', 'code 400')
+
+    })
+
+    it.only('Should create a transaction', () => {
+        cy.get(loc.MENU.MOVIENTACAO).click()
+
+        cy.get(loc.MOVIENTACAO.DESCRICAO).type('Desc')
+        cy.get(loc.MOVIENTACAO.VALOR).type('123')
+        cy.get(loc.MOVIENTACAO.INTERESSADO).type('Inter')
+        cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
+
+        cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
+        cy.url().should('contain', '/extrato')
+        cy.get(loc.EXTRATO.LINHAS).should('have.length', 7)
+        cy.xpath(loc.EXTRATO.XP_BUSCA_ELEMENTO).should('exist')
     })
 })
