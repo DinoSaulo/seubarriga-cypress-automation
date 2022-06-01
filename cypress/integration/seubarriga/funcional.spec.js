@@ -17,7 +17,7 @@ describe('Should test at a funcional level', () => {
         cy.resetApp()
     })
 
-    describe('Count tests', () => {
+    describe('Acount tests', () => {
         it('Should verify default acounts', () => {
             cy.get(loc.MENU.SETTINGS).click()
             cy.get(loc.MENU.CONTAS).click()
@@ -59,13 +59,13 @@ describe('Should test at a funcional level', () => {
             cy.xpath(loc.CONTAS.FN_XP_BTN_EXCLUIR('Conta para deletar')).click()
             cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta excluída com sucesso!')
         })
-    })
 
-    it('Should not create an account with same name', () => {
-        cy.acessarMenuConta()
-        cy.inserirConta('Conta mesmo nome')
+        it('Should not create an account with same name', () => {
+            cy.acessarMenuConta()
+            cy.inserirConta('Conta mesmo nome')
 
-        cy.get(loc.TOAST.MESSAGE).should('contain', 'code 400')
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'code 400')
+        })
     })
 
     it('Should create a transaction', () => {
