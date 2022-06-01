@@ -17,22 +17,35 @@ describe('Should test at a funcional level', () => {
         cy.resetApp()
     })
 
-    it('Should create an acount', () => {
-        cy.acessarMenuConta()
-        cy.inserirConta('Conta de teste')
+    describe('Count tests', () => {
+        it('Should create an acount', () => {
+            cy.acessarMenuConta()
+            cy.inserirConta('Conta de teste')
 
-        cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta inserida com sucesso!')
-    })
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta inserida com sucesso!')
+        })
 
-    it('Should edit an acount', () => {
-        cy.get(loc.MENU.SETTINGS).click()
-        cy.get(loc.MENU.CONTAS).click()
-        cy.xpath(loc.CONTAS.FN_XP_BTN_ALTERAR('Conta para alterar')).click()
-        cy.get(loc.CONTAS.NOME)
-            .clear()
-            .type('Conta alterada')
-        cy.get(loc.CONTAS.BTN_SALVAR).click()
-        cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta atualizada com sucesso!')
+        it('Should edit an acount', () => {
+            cy.get(loc.MENU.SETTINGS).click()
+            cy.get(loc.MENU.CONTAS).click()
+            cy.xpath(loc.CONTAS.FN_XP_BTN_ALTERAR('Conta para alterar')).click()
+            cy.get(loc.CONTAS.NOME)
+                .clear()
+                .type('Conta alterada')
+            cy.get(loc.CONTAS.BTN_SALVAR).click()
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta atualizada com sucesso!')
+        })
+
+        it('Should delete an acount', () => {
+            cy.get(loc.MENU.SETTINGS).click()
+            cy.get(loc.MENU.CONTAS).click()
+
+            cy.inserirConta('Conta para deletar')
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta inserida com sucesso!')
+
+            cy.xpath(loc.CONTAS.FN_XP_BTN_EXCLUIR('Conta para deletar')).click()
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta excluída com sucesso!')
+        })
     })
 
     it('Should not create an account with same name', () => {
@@ -58,7 +71,7 @@ describe('Should test at a funcional level', () => {
         cy.xpath(loc.EXTRATO.FN_XP_BUSCA_ELEMENTO('Desc', '123')).should('exist')
     })
 
-    it.only('Should get ballance', () => {
+    it('Should get ballance', () => {
 
         cy.get(loc.MENU.HOME).click()
 
