@@ -5,15 +5,17 @@ const locators = {
         BTN_LOGIN: '.btn'
     },
     MENU: {
+        HOME: '[data-test=menu-home]',
         SETTINGS: '[data-test=menu-settings]',
         CONTAS: '[href="/contas"]',
         RESET: '[href="/reset"]',
-        MOVIENTACAO: '[data-test=menu-movimentacao]'
+        MOVIENTACAO: '[data-test=menu-movimentacao]',
+        EXTRATO: '[data-test=menu-extrato]'
     },
     CONTAS: {
         NOME: '[data-test=nome]',
         BTN_SALVAR: '.btn',
-        XP_BTN_ALTERAR: "//table//td[contains(.,'Conta de teste')]/..//i[@class='far fa-edit']"
+        FN_XP_BTN_ALTERAR: (nome_conta) => `//table//td[contains(.,'${nome_conta}')]/..//i[@class='far fa-edit']`
     },
     TOAST: {
         MESSAGE: '.toast-message',
@@ -23,12 +25,18 @@ const locators = {
         DESCRICAO: '[data-test=descricao]',
         VALOR: '[data-test=valor]',
         INTERESSADO: '[data-test=envolvido]',
+        CONTA: '[data-test=conta]',
+        STATUS: '[data-test=status]',
         BTN_SALVAR: '.btn-primary',
     },
     EXTRATO: {
         LINHAS: '.list-group > li',
-        XP_BUSCA_ELEMENTO: "//span[contains(.,'Desc')]/following-sibling::small[contains(.,'123')]"
+        FN_XP_BUSCA_ELEMENTO: (desc, value) => `//span[contains(.,'${desc}')]/following-sibling::small[contains(.,'${value}')]`,
+        FN_XP_REMOVER_ELEMENTO: (nome_conta) => `//span[contains(.,'${nome_conta}')]/../../..//i[@class='far fa-trash-alt']`
     },
+    SALDO: {
+        FN_XP_SALDO_CONTA: (nome_conta) => `//td[contains(.,'${nome_conta}')]/../td[2]`
+    }
 }
 
 export default locators;
