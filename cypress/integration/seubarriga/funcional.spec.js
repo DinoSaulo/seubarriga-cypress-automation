@@ -18,8 +18,21 @@ describe('Should test at a funcional level', () => {
     })
 
     describe('Count tests', () => {
+        it('Should verify default acounts', () => {
+            cy.get(loc.MENU.SETTINGS).click()
+            cy.get(loc.MENU.CONTAS).click()
+
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta para alterar')
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta mesmo nome')
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta para movimentacoes')
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta com movimentacao')
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta para saldo')
+            cy.xpath(loc.CONTAS.XP_TABLE_DATA).should('contain', 'Conta para extrato')
+        })
+
         it('Should create an acount', () => {
             cy.acessarMenuConta()
+            cy.closeAllToasts()
             cy.inserirConta('Conta de teste')
 
             cy.get(loc.TOAST.MESSAGE).should('contain', 'Conta inserida com sucesso!')
@@ -74,7 +87,7 @@ describe('Should test at a funcional level', () => {
     it('Should get ballance', () => {
 
         cy.get(loc.MENU.HOME).click()
-
+        cy.xpath(loc.HOME.XP_TABLE_DATA).should('contain', 'Conta para saldo')
         cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
 
         cy.get(loc.MENU.EXTRATO).click()
@@ -88,7 +101,7 @@ describe('Should test at a funcional level', () => {
 
         cy.get(loc.MENU.HOME).click()
 
-        cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '4.034,00')
+        cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
 
     })
 

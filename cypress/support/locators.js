@@ -12,7 +12,11 @@ const locators = {
         MOVIENTACAO: '[data-test=menu-movimentacao]',
         EXTRATO: '[data-test=menu-extrato]'
     },
+    HOME: {
+        XP_TABLE_DATA: "//table/tbody",
+    },
     CONTAS: {
+        XP_TABLE_DATA: "//table/tbody",
         NOME: '[data-test=nome]',
         BTN_SALVAR: '.btn',
         FN_XP_BTN_ALTERAR: (nome_conta) => `//table//td[contains(.,'${nome_conta}')]/..//i[@class='far fa-edit']`,

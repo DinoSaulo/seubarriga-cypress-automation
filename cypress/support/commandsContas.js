@@ -12,6 +12,10 @@ Cypress.Commands.add('inserirConta', (nome_conta) => {
 
 Cypress.Commands.add('closeAllToasts', () => {
     cy.get(loc.TOAST.BTN_CLOSE).each(($el, index, $list) => {
-        cy.wrap($el).click()
+        try {
+            cy.wrap($el).should('be.visible').click()
+        }
+        catch (e) {
+        }
     })
 })
