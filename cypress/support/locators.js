@@ -45,7 +45,9 @@ const locators = {
         FN_XP_ALTERAR_ELEMENTO: (nome_conta) => `//span[contains(.,'${nome_conta}')]/../../..//i[@class='fas fa-edit']`
     },
     SALDO: {
-        FN_XP_SALDO_CONTA: (nome_conta) => `//td[contains(.,'${nome_conta}')]/../td[2]`
+        FN_XP_SALDO_CONTA: (nome_conta) => `//td[contains(.,'${nome_conta}')]/../td[2]`,
+        XP_ACCOUNTS_VALUES: '//table/tbody//tr[position() < last()]/td[2]',
+        XP_ACCOUNT_TOTAL_VALUE: '//table/tbody//tr[position()=last()]/td[2]'
     }
 }
 

@@ -125,25 +125,44 @@ describe('Should test at a funcional level', () => {
         })
     })
 
-    it('Should get ballance', () => {
+    describe('Ballance tests', () => {
+        it('Should get ballance', () => {
+            cy.get(loc.MENU.HOME).click()
+            cy.xpath(loc.HOME.XP_TABLE_DATA).should('contain', 'Conta para saldo')
+            cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
 
-        cy.get(loc.MENU.HOME).click()
-        cy.xpath(loc.HOME.XP_TABLE_DATA).should('contain', 'Conta para saldo')
-        cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
+            cy.get(loc.MENU.EXTRATO).click()
+            cy.xpath(loc.EXTRATO.FN_XP_ALTERAR_ELEMENTO('Movimentacao 1, calculo saldo')).click()
+            //cy.wait(1000)
+            cy.get(loc.MOVIENTACAO.DESCRICAO).should('have.value', 'Movimentacao 1, calculo saldo') //verificação para manter o sincronismo
+            cy.get(loc.MOVIENTACAO.STATUS).click()
+            cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
 
-        cy.get(loc.MENU.EXTRATO).click()
-        cy.xpath(loc.EXTRATO.FN_XP_ALTERAR_ELEMENTO('Movimentacao 1, calculo saldo')).click()
-        //cy.wait(1000)
-        cy.get(loc.MOVIENTACAO.DESCRICAO).should('have.value', 'Movimentacao 1, calculo saldo') //verificação para manter o sincronismo
-        cy.get(loc.MOVIENTACAO.STATUS).click()
-        cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
 
-        cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
+            cy.get(loc.MENU.HOME).click()
 
-        cy.get(loc.MENU.HOME).click()
+            cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
+        })
 
-        cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
+        it.only('Should the calculation of the total amount must be correct', () => {
+            cy.get(loc.MENU.HOME).click()
+            cy.xpath(loc.SALDO.FN_XP_SALDO_CONTA('Conta para saldo')).should('contain', '534,00')
 
+            const toStrings = (cells$) => Cypress._.map(cells$, 'textContent')
+            const moneyToFloat = (values) => values.map((num) => {return parseFloat(num.replace('-','').replace('R$','').replace(' ', '').replace('.','').replace(',','.')) * (num.includes("-") ? -1 : 1)});
+            const floatToMoney = (num) => {return num.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})};
+            const sumValues = (values) => {return moneyToFloat(values).reduce((partialSum, a) => partialSum + a, 0)}
+
+            cy.xpath(loc.SALDO.XP_ACCOUNTS_VALUES)
+                .then(toStrings)
+                .then(sumValues)
+                .then(cellsTotal => {
+                    cy.xpath(loc.SALDO.XP_ACCOUNT_TOTAL_VALUE)
+                        .invoke('text')
+                        .should('eq', floatToMoney(cellsTotal))
+                })
+        })
     })
 
     it('Should remove a transaction', () => {
