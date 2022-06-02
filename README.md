@@ -51,11 +51,11 @@ npm run cypress:open
 
 #### Executar os testes
 
-1. Clicar no botão "Electron"
-2. Clicar no botão "Start E2E Testing in Electron"
-3. Expandir a pasta "seubarriga"
-4. Clicar em "functional.cy.js"
-
+1. Clicar no botão "E2E Testing"
+2. Clicar no botão "Electron"
+3. Clicar no botão "Start E2E Testing in Electron"
+4. Expandir a pasta "seubarriga"
+5. Clicar em "functional.cy.js"
 
 ## ❔ Dúvidas
 
