@@ -42,7 +42,8 @@ const locators = {
         LINHAS: '.list-group > li',
         FN_XP_BUSCA_ELEMENTO: (desc, value) => `//span[contains(.,'${desc}')]/following-sibling::small[contains(.,'${value}')]`,
         FN_XP_REMOVER_ELEMENTO: (nome_conta) => `//span[contains(.,'${nome_conta}')]/../../..//i[@class='far fa-trash-alt']`,
-        FN_XP_ALTERAR_ELEMENTO: (nome_conta) => `//span[contains(.,'${nome_conta}')]/../../..//i[@class='fas fa-edit']`
+        FN_XP_ALTERAR_ELEMENTO: (nome_conta) => `//span[contains(.,'${nome_conta}')]/../../..//i[@class='fas fa-edit']`,
+        XP_BTNS_DELETE_TRANSACTIONS: "//li//i[@class='far fa-trash-alt']"
     },
     SALDO: {
         FN_XP_SALDO_CONTA: (nome_conta) => `//td[contains(.,'${nome_conta}')]/../td[2]`,
