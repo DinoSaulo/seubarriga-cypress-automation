@@ -57,6 +57,12 @@ npm run cypress:open
 4. Expandir a pasta "seubarriga"
 5. Clicar em "functional.cy.js"
 
+## Testes
+
+Atualmente esse projeto possui 15 testes, todos eles estão no arquvo [functional.cy.js](\cypress\e2e\seubarriga\funcional.cy.js):
+
+![switch_de_testes](/img/all_tests.png "Switch de testes")
+
 ## ❔ Dúvidas
 
 Pode entrar em contato comigo pelo e-mail: saulbpt@gmail.com ou abrir uma issue aqui 😊
