@@ -59,7 +59,7 @@ npm run cypress:open
 
 ## Testes
 
-Atualmente esse projeto possui 15 testes, todos eles estão no arquvo [functional.cy.js](\cypress\e2e\seubarriga\funcional.cy.js):
+Atualmente esse projeto possui 15 testes, todos eles estão no arquvo [functional.cy.js](./cypress/e2e/seubarriga/funcional.cy.js):
 
 ![switch_de_testes](/img/all_tests.png "Switch de testes")
 
