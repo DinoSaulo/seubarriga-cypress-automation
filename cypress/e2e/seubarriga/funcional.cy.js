@@ -173,8 +173,34 @@ describe('Should test at a funcional level', () => {
             cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
         })
 
-        it.only('Should remove all transactions', () => {
+        it('Should edit a transaction', () => {
             cy.get(loc.MENU.EXTRATO).click()
+            cy.xpath(loc.EXTRATO.FN_XP_SALDO_CONTA('Movimentacao 1, calculo saldo')).should('contain', 'R$')
+            cy.xpath(loc.EXTRATO.FN_XP_LI_ELEMENTO('Movimentacao 1, calculo saldo')).should('have.class', 'receitaPendente')
+
+            cy.xpath(loc.EXTRATO.FN_XP_ALTERAR_ELEMENTO('Movimentacao 1, calculo saldo')).click()
+
+            cy.wait(1000)
+
+            cy.url().should('contain', '/movimentacao')
+
+            cy.get(loc.MOVIENTACAO.BTN_TIPO_DESPESA).click()
+            cy.get(loc.MOVIENTACAO.BTN_SALVAR).click()
+            cy.get(loc.TOAST.MESSAGE).should('contain', 'sucesso')
+
+            cy.xpath(loc.EXTRATO.FN_XP_SALDO_CONTA('Movimentacao 1, calculo saldo')).should('contain', '-R$')
+            cy.url().should('contain', '/extrato')
+            cy.xpath(loc.EXTRATO.FN_XP_LI_ELEMENTO('Movimentacao 1, calculo saldo')).should('have.class', 'despesaPendente')
+        })
+
+        it('Should remove all transactions', () => {
+            cy.get(loc.MENU.EXTRATO).click()
+
+            cy.xpath(loc.EXTRATO.XP_BTNS_DELETE_TRANSACTIONS).each($el => {
+                cy.wrap($el).click()
+            })
+
+            cy.xpath(loc.EXTRATO.XP_TRANSACTIONS_LIST).should('have.length', 0)
         })
     })
 })
